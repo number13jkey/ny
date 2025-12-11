@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SelfRise Project - Presentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {}
+            }
+        }
+    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        /* Smooth transitions for theme changes */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/framer-motion@11/dist/framer-motion.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+        const { useState, createElement } = React;
+        const { motion, AnimatePresence } = Motion;
+
+        // Lucide Icons
+        const ChevronLeft = ({ className, strokeWidth }) => {
+            return createElement('svg', {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "24",
+                height: "24",
+                viewBox: "0 0 24 24",
+                fill: "none",
+                stroke: "currentColor",
+                strokeWidth: strokeWidth || 2,
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                className: className
+            }, createElement('path', { d: "m15 18-6-6 6-6" }));
+        };
+
+        const ChevronRight = ({ className, strokeWidth }) => {
+            return createElement('svg', {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "24",
+                height: "24",
+                viewBox: "0 0 24 24",
+                fill: "none",
+                stroke: "currentColor",
+                strokeWidth: strokeWidth || 2,
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                className: className
+            }, createElement('path', { d: "m9 18 6-6-6-6" }));
+        };
+
+        const Sparkles = ({ className, strokeWidth }) => {
+            return createElement('svg', {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "24",
+                height: "24",
+                viewBox: "0 0 24 24",
+                fill: "none",
+                stroke: "currentColor",
+                strokeWidth: strokeWidth || 2,
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                className: className
+            }, [
+                createElement('path', { key: 1, d: "M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z" }),
+                createElement('path', { key: 2, d: "M20 3v4" }),
+                createElement('path', { key: 3, d: "M22 5h-4" }),
+                createElement('path', { key: 4, d: "M4 17v2" }),
+                createElement('path', { key: 5, d: "M5 18H3" })
+            ]);
+        };
+
+        const Users = ({ className, strokeWidth }) => {
+            return createElement('svg', {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "24",
+                height: "24",
+                viewBox: "0 0 24 24",
+                fill: "none",
+                stroke: "currentColor",
+                strokeWidth: strokeWidth || 2,
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                className: className
+            }, [
+                createElement('path', { key: 1, d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" }),
+                createElement('circle', { key: 2, cx: "9", cy: "7", r: "4" }),
+                createElement('path', { key: 3, d: "M22 21v-2a4 4 0 0 0-3-3.87" }),
+                createElement('path', { key: 4, d: "M16 3.13a4 4 0 0 1 0 7.75" })
+            ]);
+        };
+
+        const ChefHat = ({ className, strokeWidth }) => {
+            return createElement('svg', {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "24",
+                height: "24",
+                viewBox: "0 0 24 24",
+                fill: "none",
+                stroke: "currentColor",
+                strokeWidth: strokeWidth || 2,
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                className: className
+            }, [
+                createElement('path', { key: 1, d: "M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z" }),
+                createElement('path', { key: 2, d: "M6 17h12" })
+            ]);
+        };
+
+        const Mic = ({ className, strokeWidth }) => {
+            return createElement('svg', {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "24",
+                height: "24",
+                viewBox: "0 0 24 24",
+                fill: "none",
+                stroke: "currentColor",
+                strokeWidth: strokeWidth || 2,
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                className: className
+            }, [
+                createElement('path', { key: 1, d: "M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" }),
+                createElement('path', { key: 2, d: "M19 10v2a7 7 0 0 1-14 0v-2" }),
+                createElement('line', { key: 3, x1: "12", x2: "12", y1: "19", y2: "22" })
+            ]);
+        };
+
+        const Palette = ({ className, strokeWidth }) => {
+            return createElement('svg', {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "24",
+                height: "24",
+                viewBox: "0 0 24 24",
+                fill: "none",
+                stroke: "currentColor",
+                strokeWidth: strokeWidth || 2,
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                className: className
+            }, [
+                createElement('circle', { key: 1, cx: "13.5", cy: "6.5", r: ".5", fill: "currentColor" }),
+                createElement('circle', { key: 2, cx: "17.5", cy: "10.5", r: ".5", fill: "currentColor" }),
+                createElement('circle', { key: 3, cx: "8.5", cy: "7.5", r: ".5", fill: "currentColor" }),
+                createElement('circle', { key: 4, cx: "6.5", cy: "12.5", r: ".5", fill: "currentColor" }),
+                createElement('path', { key: 5, d: "M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z" })
+            ]);
+        };
+
+        const ClipboardList = ({ className, strokeWidth }) => {
+            return createElement('svg', {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "24",
+                height: "24",
+                viewBox: "0 0 24 24",
+                fill: "none",
+                stroke: "currentColor",
+                strokeWidth: strokeWidth || 2,
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                className: className
+            }, [
+                createElement('rect', { key: 1, width: "8", height: "4", x: "8", y: "2", rx: "1", ry: "1" }),
+                createElement('path', { key: 2, d: "M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" }),
+                createElement('path', { key: 3, d: "M12 11h4" }),
+                createElement('path', { key: 4, d: "M12 16h4" }),
+                createElement('path', { key: 5, d: "M8 11h.01" }),
+                createElement('path', { key: 6, d: "M8 16h.01" })
+            ]);
+        };
+
+        const MessageCircle = ({ className, strokeWidth }) => {
+            return createElement('svg', {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "24",
+                height: "24",
+                viewBox: "0 0 24 24",
+                fill: "none",
+                stroke: "currentColor",
+                strokeWidth: strokeWidth || 2,
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                className: className
+            }, [
+                createElement('path', { key: 1, d: "M7.9 20A9 9 0 1 0 4 16.1L2 22Z" })
+            ]);
+        };
+
+        const UserPlus = ({ className, strokeWidth }) => {
+            return createElement('svg', {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "24",
+                height: "24",
+                viewBox: "0 0 24 24",
+                fill: "none",
+                stroke: "currentColor",
+                strokeWidth: strokeWidth || 2,
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                className: className
+            }, [
+                createElement('path', { key: 1, d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" }),
+                createElement('circle', { key: 2, cx: "9", cy: "7", r: "4" }),
+                createElement('line', { key: 3, x1: "19", x2: "19", y1: "8", y2: "14" }),
+                createElement('line', { key: 4, x1: "22", x2: "16", y1: "11", y2: "11" })
+            ]);
+        };
+
+        const HelpCircle = ({ className, strokeWidth }) => {
+            return createElement('svg', {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "24",
+                height: "24",
+                viewBox: "0 0 24 24",
+                fill: "none",
+                stroke: "currentColor",
+                strokeWidth: strokeWidth || 2,
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                className: className
+            }, [
+                createElement('circle', { key: 1, cx: "12", cy: "12", r: "10" }),
+                createElement('path', { key: 2, d: "M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" }),
+                createElement('path', { key: 3, d: "M12 17h.01" })
+            ]);
+        };
+
+        const Moon = ({ className, strokeWidth }) => {
+            return createElement('svg', {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "24",
+                height: "24",
+                viewBox: "0 0 24 24",
+                fill: "none",
+                stroke: "currentColor",
+                strokeWidth: strokeWidth || 2,
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                className: className
+            }, createElement('path', { d: "M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" }));
+        };
+
+        const Sun = ({ className, strokeWidth }) => {
+            return createElement('svg', {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "24",
+                height: "24",
+                viewBox: "0 0 24 24",
+                fill: "none",
+                stroke: "currentColor",
+                strokeWidth: strokeWidth || 2,
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                className: className
+            }, [
+                createElement('circle', { key: 1, cx: "12", cy: "12", r: "4" }),
+                createElement('path', { key: 2, d: "M12 2v2" }),
+                createElement('path', { key: 3, d: "M12 20v2" }),
+                createElement('path', { key: 4, d: "m4.93 4.93 1.41 1.41" }),
+                createElement('path', { key: 5, d: "m17.66 17.66 1.41 1.41" }),
+                createElement('path', { key: 6, d: "M2 12h2" }),
+                createElement('path', { key: 7, d: "M20 12h2" }),
+                createElement('path', { key: 8, d: "m6.34 17.66-1.41 1.41" }),
+                createElement('path', { key: 9, d: "m19.07 4.93-1.41 1.41" })
+            ]);
+        };
+
+        const slides = [
+            {
+                id: 1,
+                type: 'title',
+                title: 'SelfRise Project',
+                subtitle: 'Новогодний проект для молодежи',
+                icon: Sparkles
+            },
+            {
+                id: 2,
+                type: 'intro',
+                title: 'Приглашение',
+                content: 'Мы предлагаем вам поучавствовать в новогоднем проекте!',
+                description: 'Наша идея заключается в том, чтобы молодежь смогла проявить свои таланты и навыки в разных сферах церковной деятельности.',
+                highlight: 'Мы обещаем, вам будет очень интересно и приятно принять в этом участии, а самое важное почувствовать себя нужным, так как без участия не останется никто.',
+                icon: Users
+            },
+            {
+                id: 3,
+                type: 'info',
+                title: 'Краткая информация',
+                content: 'Мы предлагаем создать праздник с нуля, до финала…',
+                points: [
+                    'Начиная с создания идей: сцены, блюд, программы',
+                    'Заканчивая менее интересным, но не менее важным - уборкой дома'
+                ],
+                icon: Sparkles
+            },
+            {
+                id: 4,
+                type: 'divider',
+                title: 'Разделы проекта',
+                subtitle: 'Вы можете выбрать один из них, а возможно вы видеть себя сразу в нескольких'
+            },
+            {
+                id: 5,
+                type: 'section',
+                number: 1,
+                title: 'Администрационная группа',
+                description: 'В этой ветке находятся организаторы и ответственные лица к которым вы можете обращаться по любым вопросам, вносить любые предложения, получать одобрение и совет.',
+                icon: ClipboardList
+            },
+            {
+                id: 6,
+                type: 'section',
+                number: 2,
+                title: 'Кулинарная группа',
+                description: 'Будет состоять из желающих участников которые смогут придумать меню, реализовать его и красивое оформить. Разделить все процессы и не бояться пробовать готовить что то новое.',
+                icon: ChefHat
+            },
+            {
+                id: 7,
+                type: 'section',
+                number: 3,
+                title: 'Поэтическая группа',
+                description: 'Один из важнейших разделов, потому что от него зависит наше духовное питание.',
+                details: 'Он будет состоять из коллектива творческих людей, которые смогут придумать сначала концепцию/идею и организовать это в разных номерах. Даже если вы ещё не пробовали себя в этом разделе, не бойтесь пробовать, возможно это именно ваше русло.',
+                icon: Mic
+            },
+            {
+                id: 8,
+                type: 'section',
+                number: 4,
+                title: 'Дизайн локации',
+                description: 'В этом разделе могут принять участие все, присылать референсы свои идеи, но и воплощать их, то есть: организовать закупку и группу которая построит сцену и оформит зал.',
+                details: 'Все обязанности обсуждаются между вами. (то есть: кто купит, кто построит, кто создаст дизайн)',
+                icon: Palette
+            },
+            {
+                id: 9,
+                type: 'section',
+                number: 5,
+                title: 'Организационная',
+                description: 'Состоит из следующих пунктов:',
+                list: [
+                    'Организация парковки',
+                    'Наблюдение за порядком',
+                    'Наблюдение за чистотой',
+                    'Обслуживание столов'
+                ],
+                icon: Users
+            },
+            {
+                id: 10,
+                type: 'faq-intro',
+                title: 'Вопросы которые у вас смогут возникнуть',
+                icon: HelpCircle
+            },
+            {
+                id: 11,
+                type: 'faq',
+                question: 'Где вы можете получить всю информацию?',
+                answer: 'На молодежный канал мы вышлем ссылку',
+                icon: MessageCircle
+            },
+            {
+                id: 12,
+                type: 'faq-detailed',
+                question: 'Как использовать чат?',
+                points: [
+                    'Сортировать предложения и идеи по веткам и хештегам, чтобы во всем был порядок. это упростит нашу общую работу',
+                    'Принимать и обсуждать каждую идею',
+                    'Неформальное общение',
+                    'Выражать открыто своё мнение',
+                    'В ветку администрации пишите любые вопросы, если столкнулись с какой-то проблемой в процессе',
+                    'Если у вас возник какой-то вопрос личный или вы стесняетесь написать в чат админов: в ветке будет прикреплено сообщение с никнеймами админов, к которым вы можете обратится в личные сообщения'
+                ],
+                icon: MessageCircle
+            },
+            {
+                id: 13,
+                type: 'faq',
+                question: 'Как записаться в группу?',
+                answer: 'Чтобы записаться в определенную группу нужно прислать свой никней в выбранные вами ветки',
+                icon: UserPlus
+            },
+            {
+                id: 14,
+                type: 'faq',
+                question: 'Можно ли принимать участие в нескольких группах одновременно?',
+                answer: 'Если вы видите себя сразу в нескольких отделах, вы можете записаться на несколько сразу. От вас только требуется активное участие',
+                icon: Users
+            },
+            {
+                id: 15,
+                type: 'closing',
+                title: 'Ваше мнение важно!',
+                message: 'Каждое ваше предложение для нас очень важно, поэтому набирайтесь смелости и не бойтесь предлагать какую-то мысль даже если она кажется вам не значительно, возможно это именно то, чего нам не хватало.',
+                icon: Sparkles
+            }
+        ];
+
+        function Presentation() {
+            const [currentSlide, setCurrentSlide] = useState(0);
+            const [darkMode, setDarkMode] = useState(false);
+
+            const nextSlide = () => {
+                if (currentSlide < slides.length - 1) {
+                    setCurrentSlide(currentSlide + 1);
+                }
+            };
+
+            const prevSlide = () => {
+                if (currentSlide > 0) {
+                    setCurrentSlide(currentSlide - 1);
+                }
+            };
+
+            const slide = slides[currentSlide];
+            const Icon = slide.icon;
+
+            return (
+                <div className={darkMode ? 'dark' : ''}>
+                    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-amber-100 dark:from-stone-900 dark:via-amber-950 dark:to-stone-900 flex items-center justify-center p-4 md:p-8">
+                        <div className="w-full max-w-5xl">
+                            {/* Dark Mode Toggle */}
+                            <div className="flex justify-end mb-4">
+                                <button
+                                    onClick={() => setDarkMode(!darkMode)}
+                                    className="p-3 rounded-xl bg-white/50 dark:bg-amber-900/50 backdrop-blur-sm border border-orange-200/60 dark:border-amber-700/60 hover:bg-white/70 dark:hover:bg-amber-900/70 transition-all duration-200"
+                                >
+                                    {darkMode ? (
+                                        <Sun className="w-6 h-6 text-amber-900 dark:text-amber-300" />
+                                    ) : (
+                                        <Moon className="w-6 h-6 text-amber-900 dark:text-amber-300" />
+                                    )}
+                                </button>
+                            </div>
+
+                            {/* Main Container with Side Arrows */}
+                            <div className="relative">
+                                {/* Left Arrow */}
+                                <button
+                                    onClick={prevSlide}
+                                    disabled={currentSlide === 0}
+                                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-24 py-8 px-4 rounded-2xl bg-white/30 dark:bg-amber-900/30 hover:bg-white/90 dark:hover:bg-amber-900/90 disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-300 border border-orange-200/40 dark:border-amber-700/40 hover:border-orange-200/80 dark:hover:border-amber-700/80 backdrop-blur-sm z-10"
+                                >
+                                    <ChevronLeft className="w-8 h-8 text-amber-950/70 dark:text-amber-100/70 transition-colors duration-300" strokeWidth={1.5} />
+                                </button>
+
+                                {/* Right Arrow */}
+                                <button
+                                    onClick={nextSlide}
+                                    disabled={currentSlide === slides.length - 1}
+                                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-24 py-8 px-4 rounded-2xl bg-white/30 dark:bg-amber-900/30 hover:bg-white/90 dark:hover:bg-amber-900/90 disabled:opacity-20 disabled:cursor-not-allowed transition-all duration-300 border border-orange-200/40 dark:border-amber-700/40 hover:border-orange-200/80 dark:hover:border-amber-700/80 backdrop-blur-sm z-10"
+                                >
+                                    <ChevronRight className="w-8 h-8 text-amber-950/70 dark:text-amber-100/70 transition-colors duration-300" strokeWidth={1.5} />
+                                </button>
+
+                                {/* Slide Container */}
+                                <div className="relative bg-white/40 dark:bg-stone-800/40 backdrop-blur-xl rounded-3xl shadow-2xl border border-orange-200/50 dark:border-amber-700/50 overflow-hidden min-h-[600px] flex flex-col">
+                                    {/* Glass Effect Overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-br from-amber-100/30 via-transparent to-orange-100/30 dark:from-amber-900/20 dark:via-transparent dark:to-orange-900/20 pointer-events-none" />
+                                    
+                                    {/* Content */}
+                                    <div className="relative flex-1 p-8 md:p-12 lg:p-16 flex flex-col justify-center">
+                                        <AnimatePresence mode="wait">
+                                            <motion.div
+                                                key={currentSlide}
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={{ opacity: 0, y: -20 }}
+                                                transition={{ duration: 0.5, ease: "easeInOut" }}
+                                            >
+                                                {slide.type === 'title' && (
+                                                    <div className="text-center space-y-8">
+                                                        <motion.div 
+                                                            initial={{ scale: 0 }}
+                                                            animate={{ scale: 1 }}
+                                                            transition={{ delay: 0.2, duration: 0.5, type: "spring" }}
+                                                            className="inline-block p-6 bg-amber-100/50 dark:bg-amber-900/50 backdrop-blur-sm rounded-full mx-auto"
+                                                        >
+                                                            <Icon className="w-16 h-16 text-amber-700 dark:text-amber-300" strokeWidth={1.5} />
+                                                        </motion.div>
+                                                        <motion.h1 
+                                                            initial={{ opacity: 0, y: 20 }}
+                                                            animate={{ opacity: 1, y: 0 }}
+                                                            transition={{ delay: 0.3, duration: 0.5 }}
+                                                            className="text-6xl md:text-7xl text-amber-950 dark:text-amber-100"
+                                                        >
+                                                            {slide.title}
+                                                        </motion.h1>
+                                                        <motion.p 
+                                                            initial={{ opacity: 0, y: 20 }}
+                                                            animate={{ opacity: 1, y: 0 }}
+                                                            transition={{ delay: 0.4, duration: 0.5 }}
+                                                            className="text-2xl text-amber-700/80 dark:text-amber-300/80"
+                                                        >
+                                                            {slide.subtitle}
+                                                        </motion.p>
+                                                    </div>
+                                                )}
+
+                                                {slide.type === 'intro' && (
+                                                    <div className="space-y-8">
+                                                        <motion.div 
+                                                            initial={{ opacity: 0, x: -30 }}
+                                                            animate={{ opacity: 1, x: 0 }}
+                                                            transition={{ delay: 0.2, duration: 0.5 }}
+                                                            className="flex items-center gap-4 mb-6"
+                                                        >
+                                                            <div className="p-4 bg-amber-100/50 dark:bg-amber-900/50 backdrop-blur-sm rounded-2xl">
+                                                                <Icon className="w-10 h-10 text-amber-700 dark:text-amber-300" strokeWidth={1.5} />
+                                                            </div>
+                                                            <h2 className="text-4xl text-amber-950 dark:text-amber-100">{slide.title}</h2>
+                                                        </motion.div>
+                                                        <div className="space-y-6 pl-4 border-l-4 border-amber-300/50 dark:border-amber-700/50">
+                                                            <motion.p 
+                                                                initial={{ opacity: 0, x: -20 }}
+                                                                animate={{ opacity: 1, x: 0 }}
+                                                                transition={{ delay: 0.3, duration: 0.5 }}
+                                                                className="text-xl text-amber-900 dark:text-amber-200"
+                                                            >
+                                                                {slide.content}
+                                                            </motion.p>
+                                                            <motion.p 
+                                                                initial={{ opacity: 0, x: -20 }}
+                                                                animate={{ opacity: 1, x: 0 }}
+                                                                transition={{ delay: 0.4, duration: 0.5 }}
+                                                                className="text-lg text-amber-800/80 dark:text-amber-300/80"
+                                                            >
+                                                                {slide.description}
+                                                            </motion.p>
+                                                            <motion.div 
+                                                                initial={{ opacity: 0, scale: 0.95 }}
+                                                                animate={{ opacity: 1, scale: 1 }}
+                                                                transition={{ delay: 0.5, duration: 0.5 }}
+                                                                className="bg-amber-50/50 dark:bg-amber-950/50 backdrop-blur-sm rounded-2xl p-6 border border-orange-200/50 dark:border-amber-800/50"
+                                                            >
+                                                                <p className="text-lg text-amber-950 dark:text-amber-100">{slide.highlight}</p>
+                                                            </motion.div>
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                {slide.type === 'info' && (
+                                                    <div className="space-y-8">
+                                                        <motion.div 
+                                                            initial={{ opacity: 0, x: -30 }}
+                                                            animate={{ opacity: 1, x: 0 }}
+                                                            transition={{ delay: 0.2, duration: 0.5 }}
+                                                            className="flex items-center gap-4 mb-6"
+                                                        >
+                                                            <div className="p-4 bg-amber-100/50 dark:bg-amber-900/50 backdrop-blur-sm rounded-2xl">
+                                                                <Icon className="w-10 h-10 text-amber-700 dark:text-amber-300" strokeWidth={1.5} />
+                                                            </div>
+                                                            <h2 className="text-4xl text-amber-950 dark:text-amber-100">{slide.title}</h2>
+                                                        </motion.div>
+                                                        <motion.p 
+                                                            initial={{ opacity: 0, y: 20 }}
+                                                            animate={{ opacity: 1, y: 0 }}
+                                                            transition={{ delay: 0.3, duration: 0.5 }}
+                                                            className="text-2xl text-amber-900 dark:text-amber-200 mb-8"
+                                                        >
+                                                            {slide.content}
+                                                        </motion.p>
+                                                        <div className="space-y-4">
+                                                            {slide.points?.map((point, idx) => (
+                                                                <motion.div 
+                                                                    key={idx}
+                                                                    initial={{ opacity: 0, x: -20 }}
+                                                                    animate={{ opacity: 1, x: 0 }}
+                                                                    transition={{ delay: 0.4 + idx * 0.1, duration: 0.5 }}
+                                                                    className="flex items-start gap-4 bg-white/40 dark:bg-stone-800/40 backdrop-blur-sm rounded-2xl p-6 border border-orange-200/60 dark:border-amber-700/60"
+                                                                >
+                                                                    <div className="w-2 h-2 rounded-full bg-amber-600 dark:bg-amber-400 mt-2 flex-shrink-0" />
+                                                                    <p className="text-lg text-amber-900 dark:text-amber-200">{point}</p>
+                                                                </motion.div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                {slide.type === 'divider' && (
+                                                    <div className="text-center space-y-6">
+                                                        <motion.h2 
+                                                            initial={{ opacity: 0, scale: 0.9 }}
+                                                            animate={{ opacity: 1, scale: 1 }}
+                                                            transition={{ delay: 0.2, duration: 0.5 }}
+                                                            className="text-5xl text-amber-950 dark:text-amber-100"
+                                                        >
+                                                            {slide.title}
+                                                        </motion.h2>
+                                                        <motion.p 
+                                                            initial={{ opacity: 0, y: 20 }}
+                                                            animate={{ opacity: 1, y: 0 }}
+                                                            transition={{ delay: 0.3, duration: 0.5 }}
+                                                            className="text-xl text-amber-800/80 dark:text-amber-300/80 max-w-3xl mx-auto"
+                                                        >
+                                                            {slide.subtitle}
+                                                        </motion.p>
+                                                        <motion.div 
+                                                            initial={{ opacity: 0 }}
+                                                            animate={{ opacity: 1 }}
+                                                            transition={{ delay: 0.4, duration: 0.5 }}
+                                                            className="flex justify-center gap-2 pt-8"
+                                                        >
+                                                            {[...Array(5)].map((_, i) => (
+                                                                <motion.div 
+                                                                    key={i}
+                                                                    initial={{ scale: 0 }}
+                                                                    animate={{ scale: 1 }}
+                                                                    transition={{ delay: 0.5 + i * 0.1, duration: 0.3 }}
+                                                                    className="w-3 h-3 rounded-full bg-amber-400/50 dark:bg-amber-600/50"
+                                                                />
+                                                            ))}
+                                                        </motion.div>
+                                                    </div>
+                                                )}
+
+                                                {slide.type === 'section' && (
+                                                    <div className="space-y-8">
+                                                        <motion.div 
+                                                            initial={{ opacity: 0, x: -30 }}
+                                                            animate={{ opacity: 1, x: 0 }}
+                                                            transition={{ delay: 0.2, duration: 0.5 }}
+                                                            className="flex items-center gap-4 mb-6"
+                                                        >
+                                                            <div className="p-4 bg-amber-100/50 dark:bg-amber-900/50 backdrop-blur-sm rounded-2xl">
+                                                                <Icon className="w-10 h-10 text-amber-700 dark:text-amber-300" strokeWidth={1.5} />
+                                                            </div>
+                                                            <div>
+                                                                <div className="text-sm text-amber-700 dark:text-amber-400 mb-1">Раздел {slide.number}</div>
+                                                                <h2 className="text-4xl text-amber-950 dark:text-amber-100">{slide.title}</h2>
+                                                            </div>
+                                                        </motion.div>
+                                                        <motion.div 
+                                                            initial={{ opacity: 0, y: 20 }}
+                                                            animate={{ opacity: 1, y: 0 }}
+                                                            transition={{ delay: 0.3, duration: 0.5 }}
+                                                            className="bg-white/40 dark:bg-stone-800/40 backdrop-blur-sm rounded-2xl p-8 border border-orange-200/60 dark:border-amber-700/60 space-y-4"
+                                                        >
+                                                            <p className="text-lg text-amber-900 dark:text-amber-200">{slide.description}</p>
+                                                            {slide.details && (
+                                                                <motion.p 
+                                                                    initial={{ opacity: 0 }}
+                                                                    animate={{ opacity: 1 }}
+                                                                    transition={{ delay: 0.4, duration: 0.5 }}
+                                                                    className="text-base text-amber-800/80 dark:text-amber-300/80 pt-4 border-t border-orange-200/30 dark:border-amber-800/30"
+                                                                >
+                                                                    {slide.details}
+                                                                </motion.p>
+                                                            )}
+                                                            {slide.list && (
+                                                                <ul className="space-y-3 pt-4">
+                                                                    {slide.list.map((item, idx) => (
+                                                                        <motion.li 
+                                                                            key={idx}
+                                                                            initial={{ opacity: 0, x: -20 }}
+                                                                            animate={{ opacity: 1, x: 0 }}
+                                                                            transition={{ delay: 0.4 + idx * 0.1, duration: 0.5 }}
+                                                                            className="flex items-center gap-3"
+                                                                        >
+                                                                            <div className="w-1.5 h-1.5 rounded-full bg-amber-600 dark:bg-amber-400 flex-shrink-0" />
+                                                                            <span className="text-amber-900 dark:text-amber-200">{item}</span>
+                                                                        </motion.li>
+                                                                    ))}
+                                                                </ul>
+                                                            )}
+                                                        </motion.div>
+                                                    </div>
+                                                )}
+
+                                                {slide.type === 'faq-intro' && (
+                                                    <div className="text-center space-y-8">
+                                                        <motion.div 
+                                                            initial={{ scale: 0, rotate: -180 }}
+                                                            animate={{ scale: 1, rotate: 0 }}
+                                                            transition={{ delay: 0.2, duration: 0.6, type: "spring" }}
+                                                            className="inline-block p-6 bg-amber-100/50 dark:bg-amber-900/50 backdrop-blur-sm rounded-full mx-auto"
+                                                        >
+                                                            <Icon className="w-16 h-16 text-amber-700 dark:text-amber-300" strokeWidth={1.5} />
+                                                        </motion.div>
+                                                        <motion.h2 
+                                                            initial={{ opacity: 0, y: 20 }}
+                                                            animate={{ opacity: 1, y: 0 }}
+                                                            transition={{ delay: 0.4, duration: 0.5 }}
+                                                            className="text-5xl text-amber-950 dark:text-amber-100"
+                                                        >
+                                                            {slide.title}
+                                                        </motion.h2>
+                                                    </div>
+                                                )}
+
+                                                {slide.type === 'faq' && (
+                                                    <div className="space-y-8">
+                                                        <motion.div 
+                                                            initial={{ opacity: 0, x: -30 }}
+                                                            animate={{ opacity: 1, x: 0 }}
+                                                            transition={{ delay: 0.2, duration: 0.5 }}
+                                                            className="flex items-start gap-4"
+                                                        >
+                                                            <div className="p-3 bg-amber-100/50 dark:bg-amber-900/50 backdrop-blur-sm rounded-xl flex-shrink-0">
+                                                                <Icon className="w-8 h-8 text-amber-700 dark:text-amber-300" strokeWidth={1.5} />
+                                                            </div>
+                                                            <div className="space-y-4">
+                                                                <h3 className="text-3xl text-amber-950 dark:text-amber-100">{slide.question}</h3>
+                                                                <motion.div 
+                                                                    initial={{ opacity: 0, y: 20 }}
+                                                                    animate={{ opacity: 1, y: 0 }}
+                                                                    transition={{ delay: 0.3, duration: 0.5 }}
+                                                                    className="bg-amber-50/50 dark:bg-amber-950/50 backdrop-blur-sm rounded-2xl p-6 border border-orange-200/50 dark:border-amber-800/50"
+                                                                >
+                                                                    <p className="text-xl text-amber-900 dark:text-amber-200">{slide.answer}</p>
+                                                                </motion.div>
+                                                            </div>
+                                                        </motion.div>
+                                                    </div>
+                                                )}
+
+                                                {slide.type === 'faq-detailed' && (
+                                                    <div className="space-y-8">
+                                                        <motion.div 
+                                                            initial={{ opacity: 0, x: -30 }}
+                                                            animate={{ opacity: 1, x: 0 }}
+                                                            transition={{ delay: 0.2, duration: 0.5 }}
+                                                            className="flex items-start gap-4 mb-6"
+                                                        >
+                                                            <div className="p-3 bg-amber-100/50 dark:bg-amber-900/50 backdrop-blur-sm rounded-xl flex-shrink-0">
+                                                                <Icon className="w-8 h-8 text-amber-700 dark:text-amber-300" strokeWidth={1.5} />
+                                                            </div>
+                                                            <h3 className="text-3xl text-amber-950 dark:text-amber-100">{slide.question}</h3>
+                                                        </motion.div>
+                                                        <div className="space-y-3 pl-4">
+                                                            {slide.points?.map((point, idx) => (
+                                                                <motion.div 
+                                                                    key={idx}
+                                                                    initial={{ opacity: 0, x: -20 }}
+                                                                    animate={{ opacity: 1, x: 0 }}
+                                                                    transition={{ delay: 0.3 + idx * 0.1, duration: 0.5 }}
+                                                                    className="flex items-start gap-3 bg-white/40 dark:bg-stone-800/40 backdrop-blur-sm rounded-xl p-4 border border-orange-200/60 dark:border-amber-700/60"
+                                                                >
+                                                                    <div className="w-1.5 h-1.5 rounded-full bg-amber-600 dark:bg-amber-400 mt-2 flex-shrink-0" />
+                                                                    <p className="text-base text-amber-900 dark:text-amber-200">{point}</p>
+                                                                </motion.div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                {slide.type === 'closing' && (
+                                                    <div className="text-center space-y-8">
+                                                        <motion.div 
+                                                            initial={{ scale: 0, rotate: 180 }}
+                                                            animate={{ scale: 1, rotate: 0 }}
+                                                            transition={{ delay: 0.2, duration: 0.6, type: "spring" }}
+                                                            className="inline-block p-6 bg-amber-100/50 dark:bg-amber-900/50 backdrop-blur-sm rounded-full mx-auto"
+                                                        >
+                                                            <Icon className="w-16 h-16 text-amber-700 dark:text-amber-300" strokeWidth={1.5} />
+                                                        </motion.div>
+                                                        <motion.h2 
+                                                            initial={{ opacity: 0, y: 20 }}
+                                                            animate={{ opacity: 1, y: 0 }}
+                                                            transition={{ delay: 0.3, duration: 0.5 }}
+                                                            className="text-5xl text-amber-950 dark:text-amber-100"
+                                                        >
+                                                            {slide.title}
+                                                        </motion.h2>
+                                                        <motion.div 
+                                                            initial={{ opacity: 0, scale: 0.95 }}
+                                                            animate={{ opacity: 1, scale: 1 }}
+                                                            transition={{ delay: 0.4, duration: 0.5 }}
+                                                            className="bg-gradient-to-r from-amber-50/50 via-orange-50/50 to-amber-50/50 dark:from-amber-950/50 dark:via-orange-950/50 dark:to-amber-950/50 backdrop-blur-sm rounded-2xl p-8 border border-orange-200/50 dark:border-amber-800/50 max-w-3xl mx-auto"
+                                                        >
+                                                            <p className="text-xl text-amber-900 dark:text-amber-200 leading-relaxed">{slide.message}</p>
+                                                        </motion.div>
+                                                    </div>
+                                                )}
+                                            </motion.div>
+                                        </AnimatePresence>
+                                    </div>
+
+                                    {/* Navigation */}
+                                    <div className="relative p-6 border-t border-orange-200/50 dark:border-amber-700/50 bg-white/20 dark:bg-stone-800/20 backdrop-blur-sm">
+                                        <div className="flex items-center justify-center">
+                                            <div className="flex items-center gap-2">
+                                                {slides.map((_, idx) => (
+                                                    <button
+                                                        key={idx}
+                                                        onClick={() => setCurrentSlide(idx)}
+                                                        className={`transition-all duration-200 rounded-full ${
+                                                            idx === currentSlide
+                                                                ? 'w-8 h-2 bg-amber-700 dark:bg-amber-400'
+                                                                : 'w-2 h-2 bg-amber-300/50 dark:bg-amber-600/50 hover:bg-amber-400/50 dark:hover:bg-amber-500/50'
+                                                        }`}
+                                                    />
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        <div className="text-center mt-4">
+                                            <span className="text-sm text-amber-800/70 dark:text-amber-300/70">
+                                                {currentSlide + 1} / {slides.length}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<Presentation />);
+    </script>
+</body>
+</html>
